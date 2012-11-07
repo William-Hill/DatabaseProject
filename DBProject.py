@@ -22,7 +22,7 @@ if selection == 'yes':
     cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
     #print "book selected"
 else:
-    print "No selection"
+    print "No selection was made"
 
     
 
