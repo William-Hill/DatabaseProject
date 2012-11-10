@@ -15,31 +15,33 @@ db = MySQLdb.connect('127.0.0.1', 'wmh80', 'ab1234', 'wmh80')
 
 cursor = db.cursor()
 
-print "Please make a selection from the list:"
-print "1: Add a book:"
-print "2: Find Candidate Textbooks"
-print "3: Select Textbooks (for single section or all sections)"
-print "4: Find Book Violations"
-selection = raw_input()
+def menu():
 
-#selection = raw_input("Would you like to enter a book?\n")
-if selection == '1':
-    print "Please enter an ISBN number:"
-    ISBN = raw_input()
-    print "Please enter a title: "
-    title = raw_input()
-    print "Please enter the price of the book: "
-    price = raw_input()
-    print "Please enter the edition number of the book: "
-    edition = raw_input()
-    print "Does this book have online support: "
-    oSupport = raw_input()
-    print "Is there a free copy of this book available: "
-    free = raw_input()
-    cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
-    #print "book selected"
-else:
-    print "No selection was made"
+    print "Please make a selection from the list:"
+    print "1: Add a book:"
+    print "2: Find Candidate Textbooks"
+    print "3: Select Textbooks (for single section or all sections)"
+    print "4: Find Book Violations"
+    selection = raw_input()
+
+    #selection = raw_input("Would you like to enter a book?\n")
+    if selection == '1':
+        print "Please enter an ISBN number:"
+        ISBN = raw_input()
+        print "Please enter a title: "
+        title = raw_input()
+        print "Please enter the price of the book: "
+        price = raw_input()
+        print "Please enter the edition number of the book: "
+        edition = raw_input()
+        print "Does this book have online support: "
+        oSupport = raw_input()
+        print "Is there a free copy of this book available: "
+        free = raw_input()
+        cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
+        #print "book selected"
+    else:
+        print "No selection was made"
 
     
 
