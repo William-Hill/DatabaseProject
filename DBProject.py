@@ -89,7 +89,14 @@ def req6():
     ON (p.ISBN = b.ISBN AND p.Term = 200710)
     '''
     pass
-    
+    semester = raw_input ('Given Semester: ')
+    query = "SELECT DISTINCT(Title) FROM `Choose` AS p JOIN Book AS b ON (p.ISBN = b.ISBN AND p.Term = {})".format(semester)
+    print query
+    cursor.execute(query)
+
+    for count, book in enumerate([item[0] for item in cursor.fetchall()]):
+        print count+1, repr(book)
+
 def req7():
     '''
     G-1 Store relationships between of professors and sections
@@ -98,35 +105,88 @@ def req7():
     B.  INSERT INTO `wmh80`.`Section` (`CRN`, `ClassID`, `Term`, `NetID`, `ISBN`) VALUES (NULL, 'CSE1284', '201230', 'ck0', NULL);
     '''
     pass
-    
+
+    option = raw_input('Enter U(UPDATE) or I(INSERT): ')
+
+    while(option not in ('U','u','I','i')):
+        option = raw_input('Enter U(UPDATE) or I(INSERT): ')
+
+    if option in ('U','u'):
+        print "Valid Section CRNs: \n {}".format(CRNs())
+        crn = raw_input("Enter a CRN: ")
+
+        while(crn not in CRNs()):
+            raw_input("Enter a VALID CRN: ")
+
+        print "Valid Professor NetIDs: \n {}".format(NetIDs())
+        netid = raw_input('Enter a NetID: ')
+
+        while (netid in NetIDs()):
+            raw_input("Enter a VALID NetID: ")
+
+        query = "UPDATE `wmh80`.`Section` SET `NetID` = '{}' WHERE `Section`.`CRN` ={}".format(netid,crn)
+        print query
+        cursor.execute(query)
+
+    elif option in ('I','i'):
+        print "Valid Section CRNs: \n {}".format(CRNs())
+        crn = raw_input("Enter a CRN: ")
+
+        while(crn not in CRNs()):
+            raw_input("Enter a VALID CRN: ")
+
+        print "Valid Class ClassIDs: \n {}".format(ClassIDs())
+        classID = raw_input("Enter a ClassID: ")
+
+        while(classID not in ClassIDs()):
+            raw_input("Enter a VALID ClassID: ")
+
+        print "Valid Terms:\n 1) Must be six digits(0-9)\n 2) Last 2 digits must be 01, 02, or 03"
+        term = raw_input("Enter a Term: ")
+
+      
+
+
+
+
+
 def req8():
     '''
     G-2 Query to retrieve all current textbooks for sections taught by a specified professor in a specified semester
     SELECT * FROM `Section` WHERE NetID = 'uih4' AND Term = 200930
     '''
     pass
-    
+
+
+
+
 def req9():
     '''
     G-3 Bulk input of attributes of books from a file
     '''
     pass
-    
+
 def req10():
     '''
     G-4 Bulk input from a file of a specified semester's courses/sections and teaching assignments
     '''
     pass
-    
+
 def req11():
     '''
-    G-5 Set the default textbook to be the same as the last time the course was taught for all textbooks with no textbook selection for a specified semester
+    G-5 Set the default textbook to be the same as the last time the course was 
+    taught for all textbooks with no textbook selection for a specified semester
     '''
     pass
-    
+
 def ClassIDs():
     # get valid ClassIDs
     cursor.execute('SELECT ClassID FROM `Class`')
+    return [id[0] for id in cursor.fetchall()]
+
+def CRNs():
+    # get valid CRNs
+    cursor.execute('SELECT CRN FROM `Section`')
     return [id[0] for id in cursor.fetchall()]
 
 def NetIDs():

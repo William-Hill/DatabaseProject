@@ -1,0 +1,5 @@
+I created/opened this file from the terminal with sublime.
+
+I'm also editing this file with sublime.
+
+Sublime can peform Git commands and I want to test them out.
