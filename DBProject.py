@@ -67,7 +67,67 @@ def menu():
             check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
             print check
             cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+        elif selection == '6':
+            req6()
+        elif selection == '7':
+            req7()
+        elif selection == '8':
+            req8()
+        elif selection == '9':
+            req9()
+        elif selection == '10':
+            req10()
+        elif selection == '11':
+            req11()
+        
+        
+
+def req6():
+    '''
+    U-6 Query by bookstore to retrieve all textbook selections for a specified semester
+    SELECT * FROM `Choose` AS p JOIN Book AS b 
+    ON (p.ISBN = b.ISBN AND p.Term = 200710)
+    '''
+
+def req7():
+    '''
+    G-1 Store relationships between of professors and sections
+    A.  UPDATE `wmh80`.`Section` SET `NetID` = 'bgv7' WHERE `Section`.`CRN` =42;
+
+    B.  INSERT INTO `wmh80`.`Section` (`CRN`, `ClassID`, `Term`, `NetID`, `ISBN`) VALUES (NULL, 'CSE1284', '201230', 'ck0', NULL);
+    '''
+def req8():
+    '''
+    G-2 Query to retrieve all current textbooks for sections taught by a specified professor in a specified semester
+    SELECT * FROM `Section` WHERE NetID = 'uih4' AND Term = 200930
+    '''
+def req9():
+    '''
+    G-3 Bulk input of attributes of books from a file
+    '''
+def req10():
+    '''
+    G-4 Bulk input from a file of a specified semester's courses/sections and teaching assignments
+    '''
+def req11():
+    '''
+    G-5 Set the default textbook to be the same as the last time the course was taught for all textbooks with no textbook selection for a specified semester
+    '''
+def ClassIDs():
+    # get valid ClassIDs
+    cursor.execute('SELECT ClassID FROM `Class`')
+    return [id[0] for id in cursor.fetchall()]
+
+def NetIDs():
+    # get valid NetIDs
+    cursor.execute('SELECT NetID FROM `Professor`')
+    return [id[0] for id in cursor.fetchall()]
     
+def ISBNs():
+    # get valid ISBNs
+    cursor.execute('SELECT ISBN FROM `Book`')
+    return  [id[0] for id in cursor.fetchall()]
+
 menu()
 
     
