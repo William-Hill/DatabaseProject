@@ -50,6 +50,17 @@ elif selection == '2':
     cursor.execute (output)
     #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
     print cursor.fetchall()
+elif selection =='3':
+    print "Please enter a classID: "
+    classID = raw_input()
+    print "Please enter a semester (format- yyyycc; y = year; cc - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+    term = raw_input()
+    print "Please enter the title of the book: "
+    bookTitle = raw_input()
+    check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
+    print check
+    cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+
 else:
     print "Invalid selection. "
 
