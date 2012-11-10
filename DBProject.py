@@ -88,7 +88,8 @@ def req6():
     SELECT * FROM `Choose` AS p JOIN Book AS b 
     ON (p.ISBN = b.ISBN AND p.Term = 200710)
     '''
-
+    pass
+    
 def req7():
     '''
     G-1 Store relationships between of professors and sections
@@ -96,23 +97,33 @@ def req7():
 
     B.  INSERT INTO `wmh80`.`Section` (`CRN`, `ClassID`, `Term`, `NetID`, `ISBN`) VALUES (NULL, 'CSE1284', '201230', 'ck0', NULL);
     '''
+    pass
+    
 def req8():
     '''
     G-2 Query to retrieve all current textbooks for sections taught by a specified professor in a specified semester
     SELECT * FROM `Section` WHERE NetID = 'uih4' AND Term = 200930
     '''
+    pass
+    
 def req9():
     '''
     G-3 Bulk input of attributes of books from a file
     '''
+    pass
+    
 def req10():
     '''
     G-4 Bulk input from a file of a specified semester's courses/sections and teaching assignments
     '''
+    pass
+    
 def req11():
     '''
     G-5 Set the default textbook to be the same as the last time the course was taught for all textbooks with no textbook selection for a specified semester
     '''
+    pass
+    
 def ClassIDs():
     # get valid ClassIDs
     cursor.execute('SELECT ClassID FROM `Class`')
