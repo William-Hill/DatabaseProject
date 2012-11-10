@@ -1,10 +1,12 @@
 '''
-Created on Sep 28, 2012
+Created on Nov 09, 2012
 
-@author: william
+-author: william
+and Marlon
 '''
 import MySQLdb
 import random
+import os
 
 #For tunnel
 #ssh wmh80@pluto.cse.msstate.edu -L 3306:localhost:3306 
