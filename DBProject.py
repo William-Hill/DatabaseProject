@@ -21,6 +21,7 @@ print "4: Find Book Violations"
 selection = raw_input()
 
 #selection = raw_input("Would you like to enter a book?\n")
+
 if selection == '1':
     print "Please enter an ISBN number:"
     ISBN = raw_input()
@@ -36,8 +37,19 @@ if selection == '1':
     free = raw_input()
     cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
     #print "book selected"
+elif selection == '2':
+    #print "Please enter the classID: "
+    print "Please enter the classID: "
+    classID = raw_input()
+    #bISBN = raw_input()
+    
+    output =  "SELECT b.Title From Book b, Section s WHERE  s.ClassID = '%s' AND s.ISBN = b.ISBN " %(classID)
+    #print output
+    cursor.execute (output)
+    #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
+    print cursor.fetchall()
 else:
-    print "No selection was made"
+    print "Invalid selection"
 
     
 
