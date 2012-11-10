@@ -17,77 +17,58 @@ cursor = db.cursor()
 
 def menu():
 
-#<<<<<<< HEAD
-    print "Please make a selection from the list:"
-    print "1: Add a book:"
-    print "2: Find Candidate Textbooks"
-    print "3: Select Textbooks (for single section or all sections)"
-    print "4: Find Book Violations"
-    selection = raw_input()
+    # set 'selection' something other (Q,q) so it goes into the loop
+    selection = 'go'
 
-    #selection = raw_input("Would you like to enter a book?\n")
-    if selection == '1':
-        print "Please enter an ISBN number:"
-        ISBN = raw_input()
-        print "Please enter a title: "
-        title = raw_input()
-        print "Please enter the price of the book: "
-        price = raw_input()
-        print "Please enter the edition number of the book: "
-        edition = raw_input()
-        print "Does this book have online support: "
-        oSupport = raw_input()
-        print "Is there a free copy of this book available: "
-        free = raw_input()
-        cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
-        #print "book selected"
-    else:
-        print "No selection was made"
-#=======
-#selection = raw_input("Would you like to enter a book?\n")
+    while(selection not in ('Q','q')):
 
-if selection == '1':
-    print "Please enter an ISBN number:"
-    ISBN = raw_input()
-    print "Please enter a title: "
-    title = raw_input()
-    print "Please enter the price of the book: "
-    price = raw_input()
-    print "Please enter the edition number of the book: "
-    edition = raw_input()
-    print "Does this book have online support: "
-    oSupport = raw_input()
-    print "Is there a free copy of this book available: "
-    free = raw_input()
-    cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
-    #print "book selected"
-elif selection == '2':
-    #print "Please enter the classID: "
-    print "Please enter the classID: "
-    classID = raw_input()
-    #bISBN = raw_input()
+        print "Please make a selection from the list (or 'q' to quit):"
+        print "1: Add a book:"
+        print "2: Find Candidate Textbooks"
+        print "3: Select Textbooks (for single section or all sections)"
+        print "4: Find Book Violations"
+        selection = raw_input()
+
+        #selection = raw_input("Would you like to enter a book?\n")
+
+        if selection == '1':
+            print "Please enter an ISBN number:"
+            ISBN = raw_input()
+            print "Please enter a title: "
+            title = raw_input()
+            print "Please enter the price of the book: "
+            price = raw_input()
+            print "Please enter the edition number of the book: "
+            edition = raw_input()
+            print "Does this book have online support: "
+            oSupport = raw_input()
+            print "Is there a free copy of this book available: "
+            free = raw_input()
+            cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
+            #print "book selected"
+        elif selection == '2':
+            #print "Please enter the classID: "
+            print "Please enter the classID: "
+            classID = raw_input()
+            #bISBN = raw_input()
+            
+            output =  "SELECT b.Title From Book b, Section s WHERE  s.ClassID = '%s' AND s.ISBN = b.ISBN " %(classID)
+            #print output
+            cursor.execute (output)
+            #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
+            print cursor.fetchall()
+        elif selection =='3':
+            print "Please enter a classID: "
+            classID = raw_input()
+            print "Please enter a semester (format- yyyycc; y = year; cc - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+            term = raw_input()
+            print "Please enter the title of the book: "
+            bookTitle = raw_input()
+            check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
+            print check
+            cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
     
-    output =  "SELECT b.Title From Book b, Section s WHERE  s.ClassID = '%s' AND s.ISBN = b.ISBN " %(classID)
-    #print output
-    cursor.execute (output)
-    #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
-    print cursor.fetchall()
-elif selection =='3':
-    print "Please enter a classID: "
-    classID = raw_input()
-    print "Please enter a semester (format- yyyycc; y = year; cc - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
-    term = raw_input()
-    print "Please enter the title of the book: "
-    bookTitle = raw_input()
-    check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
-    print check
-    cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
-
-else:
-    print "Invalid selection"
-#>>>>>>> 3e880e734fb1186b7d9475ee477a0860021ade67
-
-    
+menu()
 
     
 
