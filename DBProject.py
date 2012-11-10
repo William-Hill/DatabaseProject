@@ -17,7 +17,7 @@ cursor = db.cursor()
 
 def menu():
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
     print "Please make a selection from the list:"
     print "1: Add a book:"
     print "2: Find Candidate Textbooks"
@@ -43,7 +43,7 @@ def menu():
         #print "book selected"
     else:
         print "No selection was made"
-=======
+#=======
 #selection = raw_input("Would you like to enter a book?\n")
 
 if selection == '1':
@@ -72,9 +72,20 @@ elif selection == '2':
     cursor.execute (output)
     #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
     print cursor.fetchall()
+elif selection =='3':
+    print "Please enter a classID: "
+    classID = raw_input()
+    print "Please enter a semester (format- yyyycc; y = year; cc - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+    term = raw_input()
+    print "Please enter the title of the book: "
+    bookTitle = raw_input()
+    check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
+    print check
+    cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+
 else:
     print "Invalid selection"
->>>>>>> 3e880e734fb1186b7d9475ee477a0860021ade67
+#>>>>>>> 3e880e734fb1186b7d9475ee477a0860021ade67
 
     
 
