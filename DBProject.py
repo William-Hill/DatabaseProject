@@ -22,12 +22,22 @@ def menu():
 
     while(selection not in ('Q','q')):
 
+        #Need to add queries to return all CRNs, all book titles, all ClassIDs,
         print "Please make a selection from the list (or 'q' to quit):"
-        print "1: Add a book:"
-        print "2: Find Candidate Textbooks"
-        print "3: Select Textbooks (for all sections)"
-        print "4: Select Textbooks (for a single section)"
-        print "5: Find Book Violations"
+        print "1:  Add a book:"
+        print "2:  Find Candidate Textbooks"
+        print "3:  Select Textbooks (for all sections)"
+        print "4:  Select Textbooks (for a single section)"
+        print "5:  Find Book Violations"
+        print "6:  Find all Textbook Selections (for a single semester)"
+        print "7:  Assign Professor to Course Section"
+        print "8:  Find Textbooks for a Professor's Section (for a single semester)"
+        print "9:  Input of Book Attributes from a file"
+        print "10: Input of Courses and Teaching Assignments from a file (for a single semester)"
+        print "11: Set Default Textbook (for a single semester)"
+        print "12: List all ClassIDs"
+        print "13: List all CRNs"
+        print "14: List all Book Titles"
         selection = raw_input()
 
         #selection = raw_input("Would you like to enter a book?\n")
@@ -61,7 +71,7 @@ def menu():
         elif selection =='3':
             print "Please enter a classID: "
             classID = raw_input()
-            print "Please enter a semester (format- yyyycc; y = year; cc - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+            print "Please enter a semester (format- yyyyss; y = year; ss - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
             term = raw_input()
             print "Please enter the title of the book: "
             bookTitle = raw_input()
@@ -88,6 +98,14 @@ def menu():
             req10()
         elif selection == '11':
             req11()
+        elif selection == '12':
+            print "All Class ClassIDs: \n {}".format(ClassIDs())
+            #print cursor.fetchall()
+        elif selection == '13':
+            print "All Section CRNs: \n {}".format(CRNs())
+        elif selection == '14':
+            print "All Book Titles: \n {}".format(BookTitles())
+        
         
         
 
@@ -206,6 +224,10 @@ def NetIDs():
 def ISBNs():
     # get valid ISBNs
     cursor.execute('SELECT ISBN FROM `Book`')
+    return  [id[0] for id in cursor.fetchall()]
+
+def BookTitles():
+    cursor.execute('SELECT TITLE FROM `Book`')
     return  [id[0] for id in cursor.fetchall()]
 
 menu()
