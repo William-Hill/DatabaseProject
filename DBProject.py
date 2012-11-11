@@ -25,8 +25,9 @@ def menu():
         print "Please make a selection from the list (or 'q' to quit):"
         print "1: Add a book:"
         print "2: Find Candidate Textbooks"
-        print "3: Select Textbooks (for single section or all sections)"
-        print "4: Find Book Violations"
+        print "3: Select Textbooks (for all sections)"
+        print "4: Select Textbooks (for a single section)"
+        print "5: Find Book Violations"
         selection = raw_input()
 
         #selection = raw_input("Would you like to enter a book?\n")
@@ -64,9 +65,17 @@ def menu():
             term = raw_input()
             print "Please enter the title of the book: "
             bookTitle = raw_input()
-            check = "UPDATE SET s.ISBN = b.ISBN FROM Book b, Section s WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
+            check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
             print check
             cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+        elif selection == '4':
+            print "Please enter a CRN: "
+            CRN = raw_input()
+            print "Please enter the title of the book: "
+            bookTitle = raw_input()
+            check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle)
+            print check
+            cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle))
         elif selection == '6':
             req6()
         elif selection == '7':
