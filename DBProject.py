@@ -40,52 +40,16 @@ def menu():
         print "14: List all Book Titles"
         selection = raw_input()
 
-        #selection = raw_input("Would you like to enter a book?\n")
-
         if selection == '1':
-            print "Please enter an ISBN number:"
-            ISBN = raw_input()
-            print "Please enter a title: "
-            title = raw_input()
-            print "Please enter the price of the book: "
-            price = raw_input()
-            print "Please enter the edition number of the book: "
-            edition = raw_input()
-            print "Does this book have online support: "
-            oSupport = raw_input()
-            print "Is there a free copy of this book available: "
-            free = raw_input()
-            cursor.execute("INSERT INTO Book(ISBN,Title) VALUES(%s, %s) ", (ISBN, title))
-            #print "book selected"
+            req1()
         elif selection == '2':
-            #print "Please enter the classID: "
-            print "Please enter the classID: "
-            classID = raw_input()
-            #bISBN = raw_input()
-            
-            output =  "SELECT b.Title From Book b, Section s WHERE  s.ClassID = '%s' AND s.ISBN = b.ISBN " %(classID)
-            #print output
-            cursor.execute (output)
-            #cursor.execute("SELECT b.Title From Book AS b JOIN Use AS u ON u.ISBN = b.ISBN AND u.ISBN = %s", (bISBN))
-            print cursor.fetchall()
+            req2()
         elif selection =='3':
-            print "Please enter a classID: "
-            classID = raw_input()
-            print "Please enter a semester (format- yyyyss; y = year; ss - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
-            term = raw_input()
-            print "Please enter the title of the book: "
-            bookTitle = raw_input()
-            check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
-            print check
-            cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+            req3()    
         elif selection == '4':
-            print "Please enter a CRN: "
-            CRN = raw_input()
-            print "Please enter the title of the book: "
-            bookTitle = raw_input()
-            check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle)
-            print check
-            cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle))
+            req4()
+        elif selection == '5':
+            req5()
         elif selection == '6':
             req6()
         elif selection == '7':
@@ -106,7 +70,71 @@ def menu():
         elif selection == '14':
             print "All Book Titles: \n {}".format(BookTitles())
         
-        
+
+def req1():
+    print "Please enter an ISBN number:"
+    ISBN = raw_input()
+    print "Please enter a title: "
+    title = raw_input()
+    print "Please enter the price of the book: "
+    price = raw_input()
+    print "Please enter the edition number of the book: "
+    edition = raw_input()
+    print "Does this book have online support: "
+    oSupport = raw_input()
+    print "Is there a free copy of this book available: "
+    free = raw_input()
+    check = "INSERT INTO Book('ISBN',Title,Price,Edition,Online_Support,Free_Copy) VALUES(%s,'%s',%s,%s,'%s','%s') " %(ISBN,title,price,edition,oSupport,free)
+    print check
+    cursor.execute("INSERT INTO Book(ISBN,Title,Price,Edition,Online_Support,Free_Copy) VALUES(%s,'%s',%s,%s,'%s','%s') " %(ISBN,title,price,edition,oSupport,free)) 
+    
+def req2():
+    #Test - passed
+    print "Please enter the classID: "
+    classID = raw_input()
+    output =  "SELECT b.Title From Book b, Section s WHERE  s.ClassID = '%s' AND s.ISBN = b.ISBN " %(classID)
+    #print output
+    cursor.execute (output)
+    print cursor.fetchall()
+    
+def req3():
+    #Generated query from phpMyAdmin to consider using
+    #INSERT INTO `wmh80`.`Section` (`CRN`, `ClassID`, `Term`, `NetID`, `ISBN`) VALUES (NULL, 'BUS2115', '201230', NULL, NULL), (NULL, 'BUS2115', '201230', NULL, NULL), (NULL, 'BUS2115', '201230', NULL, NULL);
+    print "Please enter a classID: "
+    classID = raw_input()
+    print "Please enter a semester (format- yyyyss; y = year; ss - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+    term = raw_input()
+    print "Please enter the title of the book: "
+    bookTitle = raw_input()
+    check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
+    print check
+    cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
+    db.commit()
+def req4():
+    print "Please enter a CRN: "
+    CRN = raw_input()
+    print "Please enter the title of the book: "
+    bookTitle = raw_input()
+    #check = "UPDATE `wmh80`.`Section` SET `ISBN` = '705361185' WHERE `Section`.`CRN` =81"
+    check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle)
+    print check
+    cursor.execute(check)
+    db.commit()
+    #cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle))
+    
+def req5():
+    
+    print "Please enter a semester (format- yyyyss; y = year; ss - Semester code; 10 - Spring; 20 - Summer; Fall - 30): "
+    term = raw_input()
+    #tested and working; need to run a few more test cases.
+    check = "SELECT * FROM Choose C, Section S WHERE S.Term = '%s' AND S.ISBN != C.ISBN AND (SUBSTRING(S.Term, 1,4) - SUBSTRING(C.Term,1,4))< 3 AND S.ClassID = C.ClassID " %(term)
+    print check
+    cursor.execute(check)
+    db.commit()
+    #Need to change print statement to give more details
+    print cursor.fetchall()
+    
+         
         
 
 def req6():
@@ -242,7 +270,7 @@ menu()
 #cursor.execute("INSERT INTO Book(Title) VALUES('New book') ")
 
 #cursor.execute("SELECT * FROM Book")
-db.commit()
+#db.commit()
 #cursor.execute('describe Book')
 #print "This is a test"
 #name = raw_input()
