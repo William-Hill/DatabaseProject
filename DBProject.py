@@ -110,7 +110,7 @@ def req1():    #1.    Add a book
         free = raw_input("Please enter a valid value (Y or N): Is there a free copy of this book available?")
         
     check = "INSERT INTO Book(ISBN,Title,Price,Edition,Online_Support,Free_Copy) VALUES(%s,'%s',%s,'%s','%s','%s') " %(ISBN,title,price,edition,oSupport,free)
-    print check
+    #print check
     cursor.execute("INSERT INTO Book(ISBN,Title,Price,Edition,Online_Support,Free_Copy) VALUES(%s,'%s',%s,'%s','%s','%s') " %(ISBN,title,price,edition,oSupport,free)) 
     #db.commit()
     
@@ -149,7 +149,7 @@ def req3():     #3:  Select Textbooks (for all sections)
         bookTitle = raw_input("Please enter a valid book title:")
     
     check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle)
-    print check
+    #print check
     cursor.execute("UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.ClassID = '%s' AND s.Term = '%s' AND b.Title = '%s' " %(classID,term,bookTitle))
     #db.commit()
     
@@ -170,7 +170,7 @@ def req4():     #4:  Select Textbooks (for a single section)
         bookTitle = raw_input("Please enter a valid book title:")
     
     check = "UPDATE Section s, Book b SET s.ISBN = b.ISBN WHERE s.CRN = '%s' AND b.Title = '%s' " %(CRN,bookTitle)
-    print check
+    #print check
     cursor.execute(check)
     #db.commit()
     
@@ -182,7 +182,7 @@ def req5():     #5:  Find Book Violations
         term = raw_input("Please enter a valid term:")
     #tested and working; need to run a few more test cases.
     check = "SELECT * FROM Choose C, Section S WHERE S.Term = '%s' AND S.ISBN != C.ISBN AND ((SUBSTRING(S.Term, 1,4) - SUBSTRING(C.Term,1,4))< 3 OR (SUBSTRING(S.Term, 1,4) - SUBSTRING(C.Term,1,4) = 3 AND SUBSTRING(S.Term, 5,2) - SUBSTRING(C.Term,5,2) < 0)) AND S.ClassID = C.ClassID " %(term)
-    print check
+    #print check
     cursor.execute(check)
     #db.commit()
     #Need to change print statement to give more details
@@ -191,7 +191,7 @@ def req5():     #5:  Find Book Violations
          
         
 
-def req6():     #6:  Find all Textbook Selections (for a single semester)
+def req6():
     '''
     U-6 Query by bookstore to retrieve all textbook selections for a specified semester
     SELECT * FROM `Choose` AS p JOIN Book AS b 
@@ -200,13 +200,13 @@ def req6():     #6:  Find all Textbook Selections (for a single semester)
     pass
     semester = raw_input ('Given Semester: ')
     query = "SELECT DISTINCT(Title) FROM `Choose` AS p JOIN Book AS b ON (p.ISBN = b.ISBN AND p.Term = {})".format(semester)
-    print query
+    #print query
     cursor.execute(query)
 
     for count, book in enumerate([item[0] for item in cursor.fetchall()]):
         print count+1, repr(book)
 
-def req7():     #7:  Assign Professor to Course Section
+def req7():
     '''
     G-1 Store relationships between of professors and sections
     A.  UPDATE `wmh80`.`Section` SET `NetID` = 'bgv7' WHERE `Section`.`CRN` =42;
@@ -237,7 +237,7 @@ def req7():     #7:  Assign Professor to Course Section
         print cursor.fetchall()
         #query = "UPDATE `Section` SET `NetID` = '{}' WHERE `CRN` = {}".format(netid,crn)
         query = "UPDATE `Section` SET `NetID` = '%s' WHERE `CRN` = %s" %(netid,crn)
-        print query
+        #print query
         cursor.execute(query)
         cursor.execute("SELECT * FROM Section WHERE CRN = %s" %(crn))
         print cursor.fetchall()
@@ -286,10 +286,10 @@ def req7():     #7:  Assign Professor to Course Section
             isbn = repr(isbn)
 
         query = "INSERT INTO `Section` (`CRN`, `ClassID`, `Term`, `NetID`, `ISBN`) VALUES (NULL, '{}', '{}', {}, {})".format(classID,term,netid,isbn)
-        print query
+        #print query
         cursor.execute(query)
 
-def req8():     #8:  Find Textbooks for a Professor's Section (for a single semester)
+def req8():
     '''
     G-2 Query to retrieve all current textbooks for sections taught by a specified professor in a specified semester
     SELECT * FROM `Section` WHERE NetID = 'uih4' AND Term = 200930
@@ -303,7 +303,7 @@ def req8():     #8:  Find Textbooks for a Professor's Section (for a single seme
     while (netid not in NetIDs()):
         raw_input("Enter a VALID NetID: ")
 
-    print "Valid Terms:\n 1) Must be six digits(0-9)\n 2) Last 2 digits must be 10, 20, or 30"
+    print "Valid Terms:\n 1) Must be six digits(0-9)\n 2) Last 2 digits must be 01, 02, or 03"
     term = raw_input("Enter a Term: ")
 
     while ((not(term.isdigit())) or (len(term) != 6) or (term[-2:] not in ('10','20','30'))):
@@ -314,14 +314,13 @@ def req8():     #8:  Find Textbooks for a Professor's Section (for a single seme
 
 
     query = "SELECT DISTINCT(Title) FROM `Section` AS s JOIN Book AS b ON(s.ISBN = b.ISBN) WHERE NetID = '{}' AND s.Term = {}".format(netid,term)
-    print query
+    #print query
     cursor.execute(query)
 
     for count, book in enumerate([item[0] for item in cursor.fetchall()]):
         print count+1, repr(book)
 
-
-def req9():     #9:  Input of Book Attributes from a file
+def req9():
     '''
     G-3 Bulk input of attributes of books from a file
     '''
@@ -333,7 +332,7 @@ def req9():     #9:  Input of Book Attributes from a file
     print(query)
     cursor.execute(query)
 
-def req10():        #10: Input of Courses and Teaching Assignments from a file (for a single semester)
+def req10():
     '''
     G-4 Bulk input from a file of a specified semester's courses/sections and teaching assignments
     '''
@@ -345,7 +344,7 @@ def req10():        #10: Input of Courses and Teaching Assignments from a file (
     print(query)
     cursor.execute(query)
 
-def req11():        #11: Set Default Textbook (for a single semester)
+def req11():
     '''
     G-5 Set the default textbook to be the same as the last time the course was 
     taught for all textbooks with no textbook selection for a specified semester
@@ -356,25 +355,34 @@ def req11():        #11: Set Default Textbook (for a single semester)
     term = validTerm()
 
     # get CRNs, ClassIDs from given term
-    query = "SELECT CRN, ClassID FROM `Section` where term = {} ".format(term)
-    #print query
+    query = "SELECT CRN, ClassID FROM `Section` where ISBN IS NULL AND term = {} ".format(term)
+    ##print query
     cursor.execute(query)
 
     bookless = cursor.fetchall()
 
     for section in bookless:
         print section, section[0], section[1]
-        query = "SELECT * FROM `Section` where term = (Select Max(term) From Section where term < {0} AND ClassID in ('{1}')) AND ClassID in ('{1}')".format(term,section[1])
-        #print query
+        query = "SELECT isbn, crn FROM `Section` where term = (Select Max(term) From Section where term < {0} AND ClassID in ('{1}')) AND ClassID in ('{1}')".format(term,section[1])
+        ##print query
         cursor.execute(query)
 
-        lastbook = [book for book in cursor.fetchall()][0]
-        print lastbook
+        lastbook = [book for book in cursor.fetchall()]
 
+        print len(lastbook)
         if len(lastbook) != 0:
-            query = "UPDATE `Section` SET `ISBN` = {0} WHERE `CRN` = {1};".format(lastbook[0],section[0])
-            print '\t',query
+            print lastbook, lastbook[0]
+        
+            if lastbook[0] is None:
+                isbn = 'NULL'
+            else:
+                isbn = repr(lastbook[0][0])
+        else:
+            isbn = 'NULL'
 
+        query = "UPDATE `Section` SET `ISBN` = {0} WHERE `CRN` = {1};".format(isbn,section[0])
+        #print '\t',query
+        cursor.execute(query)
 
 def req15():        #15: Show Class Table
     check = "SELECT * FROM Class"
